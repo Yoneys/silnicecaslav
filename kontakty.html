@@ -24,7 +24,7 @@
   header{position:sticky;top:0;z-index:50;background:var(--concrete);border-bottom:1px solid rgba(27,27,26,.12);}
   .nav-wrap{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;}
   .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:-0.01em;}
-  .logo .mark{width:30px;height:30px;flex-shrink:0;}
+  .logo .mark{width:34px;height:34px;flex-shrink:0;object-fit:contain;}
   nav ul{list-style:none;display:flex;gap:34px;}
   nav a{font-size:15px;font-weight:500;position:relative;padding-bottom:4px;}
   nav a.active{color:var(--green-dark);}
@@ -37,6 +37,15 @@
   .crumb{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:18px;display:block;}
   .pagehero h1{font-size:clamp(2rem,4vw,3.2rem);font-weight:700;letter-spacing:-0.02em;max-width:18ch;line-height:1.05;}
   .pagehero p{margin-top:18px;font-size:16px;color:#cfcdc8;max-width:56ch;line-height:1.6;}
+  .back-link{
+    display:inline-flex;align-items:center;gap:8px;
+    margin-top:28px;
+    font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;
+    color:var(--white);border:1px solid rgba(250,250,248,.3);
+    padding:10px 16px;border-radius:2px;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .back-link:hover{border-color:var(--green);color:var(--green);}
 
   section{padding:80px 32px;}
   .section-inner{max-width:1240px;margin:0 auto;}
@@ -133,22 +142,19 @@
 
 <header>
   <div class="nav-wrap">
-    <div class="logo">
-      <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M6 34L18 6H26L14 34H6Z" fill="var(--asphalt)"/>
-        <path d="M18 34L30 6H34L22 34H18Z" fill="var(--green)"/>
-      </svg>
+    <a class="logo" href="index.html">
+      <img class="mark" src="Logo.png" alt="Silnice Čáslav logo">
       <span>Silnice Čáslav</span>
-    </div>
+    </a>
     <nav>
       <ul>
-        <li><a href="#">Naše služby</a></li>
-        <li><a href="#">Systém jakosti</a></li>
-        <li><a href="#">Projekty EU</a></li>
-        <li><a class="active" href="#">Kontakty</a></li>
+        <li><a href="sluzby.html">Naše služby</a></li>
+        <li><a href="system-managementu-jakosti.html">Systém jakosti</a></li>
+        <li><a href="projekty-eu.html">Projekty EU</a></li>
+        <li><a class="active" href="kontakty.html">Kontakty</a></li>
       </ul>
     </nav>
-    <a class="nav-cta" href="#">Poptávka</a>
+    <a class="nav-cta" href="kontakty.html">Poptávka</a>
   </div>
 </header>
 
@@ -157,6 +163,7 @@
     <span class="crumb">Kontakty</span>
     <h1>Kde nás najdete a s kým mluvit</h1>
     <p>Sídlo, provozovna a přímé kontakty na jednotlivá oddělení — ať už řešíte poptávku, probíhající stavbu nebo dodávku materiálu.</p>
+    <a class="back-link" href="index.html">← Zpět na úvodní stránku</a>
   </div>
 </div>
 
