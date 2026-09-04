@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakty — Silnice Čáslav</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt:#1b1b1a; --asphalt-2:#242422; --concrete:#edebe6; --concrete-2:#e0ddd5;
+    --green:#4ca832; --green-dark:#3a8025; --yellow:#f2b705; --white:#fafaf8; --line-grey:#8a8680;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:'Space Grotesk',sans-serif;background:var(--concrete);color:var(--asphalt);-webkit-font-smoothing:antialiased;}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .roadline{height:3px;width:100%;background-image:repeating-linear-gradient(90deg, var(--white) 0 28px, transparent 28px 44px);opacity:.9;}
+  .roadline.dark{background-image:repeating-linear-gradient(90deg, var(--asphalt) 0 28px, transparent 28px 44px);}
+
+  header{position:sticky;top:0;z-index:50;background:var(--concrete);border-bottom:1px solid rgba(27,27,26,.12);}
+  .nav-wrap{max-width:1240px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:18px 32px;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px;letter-spacing:-0.01em;}
+  .logo .mark{width:30px;height:30px;flex-shrink:0;}
+  nav ul{list-style:none;display:flex;gap:34px;}
+  nav a{font-size:15px;font-weight:500;position:relative;padding-bottom:4px;}
+  nav a.active{color:var(--green-dark);}
+  nav a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--green);transition:width .2s ease;}
+  nav a:hover::after, nav a.active::after{width:100%;}
+  .nav-cta{background:var(--asphalt);color:var(--white);padding:10px 18px;border-radius:2px;font-size:14px;font-weight:600;display:inline-block;}
+
+  .pagehero{background:var(--asphalt);color:var(--white);padding:64px 32px 56px;}
+  .pagehero-inner{max-width:1240px;margin:0 auto;}
+  .crumb{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:18px;display:block;}
+  .pagehero h1{font-size:clamp(2rem,4vw,3.2rem);font-weight:700;letter-spacing:-0.02em;max-width:18ch;line-height:1.05;}
+  .pagehero p{margin-top:18px;font-size:16px;color:#cfcdc8;max-width:56ch;line-height:1.6;}
+
+  section{padding:80px 32px;}
+  .section-inner{max-width:1240px;margin:0 auto;}
+  .section-head{margin-bottom:48px;}
+  .section-head h2{font-size:clamp(1.8rem,3vw,2.4rem);font-weight:700;letter-spacing:-0.015em;}
+  .section-head p{margin-top:14px;font-size:16px;color:#454340;max-width:52ch;line-height:1.6;}
+
+  /* --- location --- */
+  .location{display:grid;grid-template-columns:.9fr 1.1fr;gap:0;border:1px solid rgba(27,27,26,.16);}
+  .loc-info{padding:40px;background:var(--white);}
+  .addr-block{margin-bottom:24px;}
+  .addr-block:last-of-type{margin-bottom:32px;}
+  .addr-block .tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--green-dark);display:block;margin-bottom:8px;}
+  .addr-block p{font-size:16px;line-height:1.6;}
+  .id-row{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px;}
+  .id-chip{font-family:'IBM Plex Mono',monospace;font-size:12px;border:1px solid rgba(27,27,26,.25);padding:8px 12px;border-radius:2px;}
+  .maps-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--green);color:var(--asphalt);
+    padding:13px 20px;border-radius:2px;font-size:14px;font-weight:600;
+  }
+  .maps-btn:hover{background:var(--yellow);}
+  .loc-map{position:relative;min-height:340px;background:var(--concrete-2);}
+  .loc-map iframe{width:100%;height:100%;position:absolute;inset:0;border:0;filter:grayscale(.15) contrast(1.05);}
+
+  /* --- contact directory (accordion) --- */
+  .acc{border-top:1px solid rgba(27,27,26,.16);}
+  .acc:last-of-type{border-bottom:1px solid rgba(27,27,26,.16);}
+  .acc summary{
+    list-style:none;cursor:pointer;
+    padding:20px 0;
+    display:flex;align-items:center;gap:12px;
+    font-size:17px;font-weight:600;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .acc summary::-webkit-details-marker{display:none;}
+  .acc summary::before{
+    content:"+";
+    font-family:'IBM Plex Mono',monospace;font-weight:400;
+    font-size:18px;color:var(--green-dark);
+    width:18px;flex-shrink:0;
+    transition:transform .2s ease;
+  }
+  .acc[open] summary::before{content:"–";}
+  .acc summary .count{
+    font-family:'IBM Plex Mono',monospace;font-weight:400;font-size:12px;
+    color:var(--line-grey);margin-left:auto;
+  }
+  .acc .directory{padding-bottom:8px;}
+  .directory{list-style:none;}
+  .directory li{
+    border-top:1px solid rgba(27,27,26,.1);
+    padding:16px 0 16px 30px;
+    display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;
+  }
+  .directory .role{font-size:15px;font-weight:600;}
+  .directory .role span{display:block;font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--line-grey);font-weight:400;margin-top:4px;}
+  .directory .reach{display:flex;flex-direction:column;gap:4px;text-align:right;}
+  .directory .reach a{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--asphalt);}
+  .directory .reach a:hover{color:var(--green-dark);}
+
+  .secretariat{
+    margin-top:40px;padding:28px 32px;
+    background:var(--asphalt);color:var(--white);
+    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;
+  }
+  .secretariat .tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--green);display:block;margin-bottom:6px;}
+  .secretariat p{font-size:15px;color:#cfcdc8;}
+  .secretariat-reach{display:flex;flex-direction:column;gap:4px;align-items:flex-end;}
+  .secretariat-reach a{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:600;color:var(--white);}
+  .secretariat-reach a:hover{color:var(--green);}
+
+  footer{background:var(--green);color:var(--asphalt);padding:80px 32px 40px;}
+  .footer-top{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:40px;padding-bottom:56px;}
+  .footer-top h2{font-size:clamp(1.9rem,3.4vw,3rem);font-weight:700;letter-spacing:-0.02em;max-width:14ch;line-height:1.06;}
+  .footer-col h5{font-size:13px;font-family:'IBM Plex Mono',monospace;margin-bottom:14px;opacity:.75;}
+  .footer-col p, .footer-col a{font-size:15px;line-height:1.9;display:block;}
+  .footer-bottom{border-top:1px solid rgba(27,27,26,.25);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+  .footer-bottom span{font-size:13px;font-family:'IBM Plex Mono',monospace;opacity:.8;}
+
+  @media (max-width:860px){
+    nav ul, .nav-cta{display:none;}
+    .location{grid-template-columns:1fr;}
+    .loc-map{min-height:260px;}
+    .directory li{grid-template-columns:1fr;gap:6px;text-align:left;padding-left:20px;}
+    .directory .reach{text-align:left;align-items:flex-start;}
+    .secretariat{flex-direction:column;align-items:flex-start;}
+    .secretariat-reach{align-items:flex-start;}
+    .footer-top{grid-template-columns:1fr;gap:30px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <div class="logo">
+      <svg class="mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 34L18 6H26L14 34H6Z" fill="var(--asphalt)"/>
+        <path d="M18 34L30 6H34L22 34H18Z" fill="var(--green)"/>
+      </svg>
+      <span>Silnice Čáslav</span>
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">Naše služby</a></li>
+        <li><a href="#">Systém jakosti</a></li>
+        <li><a href="#">Projekty EU</a></li>
+        <li><a class="active" href="#">Kontakty</a></li>
+      </ul>
+    </nav>
+    <a class="nav-cta" href="#">Poptávka</a>
+  </div>
+</header>
+
+<div class="pagehero">
+  <div class="pagehero-inner">
+    <span class="crumb">Kontakty</span>
+    <h1>Kde nás najdete a s kým mluvit</h1>
+    <p>Sídlo, provozovna a přímé kontakty na jednotlivá oddělení — ať už řešíte poptávku, probíhající stavbu nebo dodávku materiálu.</p>
+  </div>
+</div>
+
+<section>
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Adresa</h2>
+    </div>
+    <div class="location">
+      <div class="loc-info">
+        <div class="addr-block">
+          <span class="tag">SÍDLO SPOLEČNOSTI</span>
+          <p>SILNICE ČÁSLAV – HOLDING, a.s.<br>Zbraslavice 331<br>285 21 Zbraslavice</p>
+        </div>
+        <div class="addr-block">
+          <span class="tag">PROVOZOVNA</span>
+          <p>Chotusická 1121<br>286 22 Čáslav</p>
+        </div>
+        <div class="id-row">
+          <span class="id-chip">IČO: 25261282</span>
+          <span class="id-chip">DIČ: CZ25261282</span>
+          <span class="id-chip">silnice@silnicecaslav.cz</span>
+        </div>
+        <a class="maps-btn" href="https://www.google.com/maps/place/SILNICE+%C4%8C%C3%81SLAV+-+HOLDING,+a.s./@49.9196787,15.3886527,18.17z/data=!4m6!3m5!1s0x470c46687078d385:0x548b4c936c811631!8m2!3d49.9197631!4d15.3892407!16s%2Fg%2F1hc1tffr5" target="_blank" rel="noopener">
+          Otevřít v Google Maps →
+        </a>
+      </div>
+      <div class="loc-map">
+        <iframe src="https://www.google.com/maps?q=49.9197631,15.3892407&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="roadline dark"></div>
+
+<section>
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Kontaktní osoby</h2>
+      <p>Podle toho, co řešíte, se nejrychleji dovoláte přímo na příslušné oddělení.</p>
+    </div>
+    <details class="acc" open>
+      <summary>Statutární orgán<span class="count">3</span></summary>
+      <ul class="directory">
+        <li>
+          <div class="role">Ing. Alois Holík<span>předseda správní rady</span></div>
+          <div class="reach"></div>
+        </li>
+        <li>
+          <div class="role">Ing. Michal Holík<span>člen správní rady</span></div>
+          <div class="reach"></div>
+        </li>
+        <li>
+          <div class="role">Ing. Alois Holík ml.<span>člen správní rady</span></div>
+          <div class="reach"></div>
+        </li>
+      </ul>
+    </details>
+
+    <details class="acc">
+      <summary>Vedení a odborní pracovníci<span class="count">4</span></summary>
+      <ul class="directory">
+        <li>
+          <div class="role">Miroslav Mach<span>obchod</span></div>
+          <div class="reach"></div>
+        </li>
+        <li>
+          <div class="role">Ing. Ondřej Štěpán<span>obchod</span></div>
+          <div class="reach"></div>
+        </li>
+        <li>
+          <div class="role">Ing. Lenka Velebová<span>ekonom</span></div>
+          <div class="reach"></div>
+        </li>
+        <li>
+          <div class="role">Ing. Jan Husa<span>výroba</span></div>
+          <div class="reach"></div>
+        </li>
+      </ul>
+    </details>
+
+    <details class="acc">
+      <summary>Vedoucí provozů<span class="count">5</span></summary>
+      <ul class="directory">
+        <li>
+          <div class="role">Martin Bednář<span>vedoucí střediska dopravy</span></div>
+          <div class="reach"><a href="mailto:bednar@silnicecaslav.cz">bednar@silnicecaslav.cz</a></div>
+        </li>
+        <li>
+          <div class="role">Ivan Popl<span>vedoucí střediska Betonárna Malín</span></div>
+          <div class="reach"><a href="mailto:malin@silnicecaslav.cz">malin@silnicecaslav.cz</a></div>
+        </li>
+        <li>
+          <div class="role">Jiří Velát<span>vedoucí střediska Lom Markovice</span></div>
+          <div class="reach"><a href="mailto:markovice@silnicecaslav.cz">markovice@silnicecaslav.cz</a></div>
+        </li>
+        <li>
+          <div class="role">David Filípek<span>vedoucí střediska Lom Vlastějovice</span></div>
+          <div class="reach"><a href="mailto:vlastejovice@silnicecaslav.cz">vlastejovice@silnicecaslav.cz</a></div>
+        </li>
+        <li>
+          <div class="role">Bedřich Staněk<span>vedoucí Emulgační stanice Ostrov nad Oslavou</span></div>
+          <div class="reach"><a href="mailto:stanek@silnicecaslav.cz">stanek@silnicecaslav.cz</a></div>
+        </li>
+      </ul>
+    </details>
+
+    <div class="secretariat">
+      <div>
+        <span class="tag">NEVÍTE, NA KOHO SE OBRÁTIT?</span>
+        <p>Sekretariát vás nasměruje na správné oddělení.</p>
+      </div>
+      <div class="secretariat-reach">
+        <a href="tel:+420327312351">+420 327 312 351</a>
+        <a href="mailto:silnice@silnicecaslav.cz">silnice@silnicecaslav.cz</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="section-inner">
+    <div class="footer-top">
+      <div><h2>Máte stavbu, kterou je třeba vyřešit?</h2></div>
+      <div class="footer-col">
+        <h5>SÍDLO SPOLEČNOSTI</h5>
+        <p>Silnice Čáslav – Holding, a.s.</p>
+        <p>Zbraslavice 331</p>
+        <p>285 21 Zbraslavice</p>
+      </div>
+      <div class="footer-col">
+        <h5>KONTAKT</h5>
+        <a href="mailto:silnice@silnicecaslav.cz">silnice@silnicecaslav.cz</a>
+        <a href="#">IČO: 25261282</a>
+        <a href="#">DIČ: CZ25261282</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>Silnice Čáslav — Holding, a.s. · od 1997</span>
+      <span>Redesign koncept — obsah orientační</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
