@@ -109,6 +109,27 @@
     .policy-grid{grid-template-columns:1fr;}
     .footer-top{grid-template-columns:1fr;gap:30px;}
   }
+
+  /* Lightbox for certificate zoom */
+  .lightbox-overlay{
+    position:fixed;inset:0;background:rgba(27,27,26,.92);
+    display:none;align-items:center;justify-content:center;
+    z-index:1000;padding:40px;cursor:zoom-out;
+  }
+  .lightbox-overlay.active{display:flex;}
+  .lightbox-overlay img{
+    max-width:90vw;max-height:90vh;width:auto;height:auto;
+    border:1px solid rgba(250,250,248,.25);
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+  }
+  .lightbox-close{
+    position:absolute;top:24px;right:32px;
+    color:var(--white);font-family:'IBM Plex Mono',monospace;
+    font-size:14px;border:1px solid rgba(250,250,248,.3);
+    padding:8px 14px;border-radius:2px;cursor:pointer;
+    background:transparent;transition:border-color .2s ease,color .2s ease;
+  }
+  .lightbox-close:hover{border-color:var(--green);color:var(--green);}
 </style>
 </head>
 <body>
@@ -264,5 +285,50 @@
   </div>
 </footer>
 
+
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <button class="lightbox-close" id="lightboxClose" type="button">✕ Zavřít</button>
+  <img id="lightboxImg" src="" alt="Zvětšený certifikát">
+</div>
+
+<script>
+  (function(){
+    var overlay = document.getElementById('lightboxOverlay');
+    var lightboxImg = document.getElementById('lightboxImg');
+    var closeBtn = document.getElementById('lightboxClose');
+    var thumbs = document.querySelectorAll('.cert-thumb img');
+
+    function openLightbox(src, alt){
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox(){
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+      lightboxImg.src = '';
+    }
+
+    thumbs.forEach(function(img){
+      img.parentElement.addEventListener('click', function(){
+        openLightbox(img.src, img.alt);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeLightbox);
+    overlay.addEventListener('click', function(e){
+      if(e.target === overlay){
+        closeLightbox();
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && overlay.classList.contains('active')){
+        closeLightbox();
+      }
+    });
+  })();
+</script>
 </body>
 </html>
