@@ -33,6 +33,21 @@
   nav a:hover::after, nav a.active::after{width:100%;}
   .nav-cta{background:var(--asphalt);color:var(--white);padding:10px 18px;border-radius:2px;font-size:14px;font-weight:600;display:inline-block;}
 
+  .menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;margin:-8px;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;flex-shrink:0;}
+  .menu-toggle span{display:block;width:100%;height:2px;background:var(--asphalt);transition:transform .2s ease, opacity .2s ease;}
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--concrete);border-bottom:1px solid rgba(27,27,26,.12);box-shadow:0 16px 28px rgba(27,27,26,.1);max-height:calc(100vh - 100%);overflow-y:auto;}
+  .mobile-menu.open{display:block;}
+  .mobile-menu ul{list-style:none;padding:0 32px;}
+  .mobile-menu li{border-top:1px solid rgba(27,27,26,.1);}
+  .mobile-menu li:first-child{border-top:0;}
+  .mobile-menu a{display:block;padding:16px 0;font-size:16px;font-weight:500;}
+  .mobile-menu a.active{color:var(--green-dark);}
+  .mobile-menu .nav-cta{display:inline-block;margin:8px 32px 24px;}
+
   .pagehero{background:var(--asphalt);color:var(--white);padding:64px 32px 56px;}
   .pagehero-inner{max-width:1240px;margin:0 auto;display:grid;grid-template-columns:1.3fr .7fr;gap:40px;align-items:end;}
   .crumb{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);margin-bottom:18px;display:block;}
@@ -82,18 +97,49 @@
     color:var(--asphalt);
   }
   .disclosure{
-    margin-top:22px;padding:16px 18px;
-    border-left:2px solid var(--green);
-    background:var(--concrete-2);
+    margin-top:22px;padding:12px 14px;
+    border-left:2px solid var(--line-grey);
+    background:transparent;
+    opacity:.85;
   }
-  .disclosure span{
+  .disclosure .label{
     display:block;font-family:'IBM Plex Mono',monospace;font-size:10px;
-    letter-spacing:.03em;color:var(--line-grey);margin-bottom:8px;
+    letter-spacing:.03em;color:var(--line-grey);margin-bottom:2px;
+    text-transform:none;
   }
-  .disclosure p{font-size:13px;line-height:1.6;color:#454340;font-style:italic;}
+  .disclosure .required{
+    display:block;font-family:'IBM Plex Mono',monospace;font-size:9px;
+    letter-spacing:.05em;color:var(--line-grey);margin-bottom:6px;
+    text-transform:uppercase;
+  }
+  .disclosure p{font-size:12.5px;line-height:1.6;color:#6b6864;font-style:italic;}
+
+  .projects-intro{max-width:1240px;margin:0 auto 40px;}
+  .projects-intro .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green-dark);
+    letter-spacing:.02em;margin-bottom:12px;display:block;
+  }
+  .projects-intro h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-0.02em;max-width:22ch;line-height:1.1;margin-bottom:14px;}
+  .projects-intro p{font-size:16px;line-height:1.6;color:#454340;max-width:60ch;}
+
+  .benefits{margin-top:24px;}
+  .benefits .label{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.03em;
+    color:var(--green-dark);margin-bottom:10px;display:block;text-transform:uppercase;
+  }
+  .benefits ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+  .benefits li{
+    font-size:14px;line-height:1.5;color:var(--asphalt);
+    padding-left:20px;position:relative;
+  }
+  .benefits li::before{
+    content:"";position:absolute;left:0;top:8px;width:8px;height:2px;background:var(--green);
+  }
 
   @media (max-width:860px){
-    nav ul, .nav-cta{display:none;}
+    nav{display:none;}
+    .nav-wrap > .nav-cta{display:none;}
+    .menu-toggle{display:flex;}
     .pagehero-inner{grid-template-columns:1fr;}
     .project{grid-template-columns:1fr;}
   }
@@ -179,7 +225,19 @@
         <li><a href="kontakty.html">Kontakty</a></li>
       </ul>
     </nav>
-    <a class="nav-cta" href="kontakty.html">Poptávka</a>
+    <a class="nav-cta" href="kontakty.html#poptavka">Poptávka</a>
+    <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="sluzby.html">Naše služby</a></li>
+      <li><a href="system-managementu-jakosti.html">Systém jakosti</a></li>
+      <li><a class="active" href="projekty-eu.html">Projekty EU</a></li>
+      <li><a href="kontakty.html">Kontakty</a></li>
+    </ul>
+    <a class="nav-cta" href="kontakty.html#poptavka">Poptávka</a>
   </div>
 </header>
 
@@ -208,6 +266,12 @@
 <section>
   <div class="section-inner">
 
+    <div class="projects-intro">
+      <span class="eyebrow">NA ČEM PRACUJEME S PODPOROU EU</span>
+      <h2>Investujeme do lidí, technologií a modernizace výroby</h2>
+      <p>Evropské a národní programy nám pomáhají posouvat firmu dál — od vzdělávání zaměstnanců po zavádění šetrnějších technologií ve zpracování stavebních a demoličních odpadů.</p>
+    </div>
+
     <div class="project">
       <div class="project-side">
         <div>
@@ -226,8 +290,17 @@
           <span class="fact-chip">Program: OP Zaměstnanost Plus 2021–2027</span>
           <span class="fact-chip">Řídicí orgán: MPSV ČR</span>
         </div>
+        <div class="benefits">
+          <span class="label">Co projekt přinese</span>
+          <ul>
+            <li>rozvoj odborných dovedností zaměstnanců</li>
+            <li>podpora dalšího vzdělávání</li>
+            <li>důraz na zaměstnance 55+</li>
+          </ul>
+        </div>
         <div class="disclosure">
-          <span>POVINNÉ ZNĚNÍ</span>
+          <span class="label">Oficiální informace o financování</span>
+          <span class="required">Povinné znění</span>
           <p>Jsme zapojeni do výzvy 03_23_047 „PODNIKOVÉ VZDĚLÁVÁNÍ (1)“, která je spolufinancována Evropskou unií.</p>
         </div>
       </div>
@@ -251,8 +324,17 @@
           <span class="fact-chip">Program: Národní plán obnovy</span>
           <span class="fact-chip">Poskytovatel: Ministerstvo průmyslu a obchodu</span>
         </div>
+        <div class="benefits">
+          <span class="label">Co projekt přinese</span>
+          <ul>
+            <li>modernější zpracování stavebních a demoličních odpadů</li>
+            <li>efektivnější využití materiálů</li>
+            <li>podpora nízkouhlíkových technologií</li>
+          </ul>
+        </div>
         <div class="disclosure">
-          <span>POVINNÉ ZNĚNÍ</span>
+          <span class="label">Oficiální informace o financování</span>
+          <span class="required">Povinné znění</span>
           <p>Projekt SILNICE ČÁSLAV – HOLDING, a.s. – Využití inovativní technologie, registrační číslo CZ.31.5.0/0.0/0.0/22_010/0003271 je spolufinancován Evropskou unií.</p>
         </div>
       </div>
@@ -316,5 +398,28 @@
   });
 </script>
 
+<script>
+(function(){
+  var btn = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("mobile-menu");
+  if(!btn || !menu) return;
+  btn.addEventListener("click", function(){
+    var open = menu.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  menu.querySelectorAll("a").forEach(function(a){
+    a.addEventListener("click", function(){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    });
+  });
+  window.addEventListener("resize", function(){
+    if(window.innerWidth > 860){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+})();
+</script>
 </body>
 </html>

@@ -14,7 +14,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   html{scroll-behavior:smooth;}
-  body{font-family:'Space Grotesk',sans-serif;background:var(--concrete);color:var(--asphalt);-webkit-font-smoothing:antialiased;}
+  body{font-family:'Space Grotesk',sans-serif;background-color:var(--concrete);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0,30 C50,10 150,10 200,30' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.06'/%3E%3Cpath d='M0,80 C50,100 150,60 200,80' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.06'/%3E%3Cpath d='M0,130 C50,110 150,150 200,130' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.06'/%3E%3Cpath d='M0,180 C50,160 150,200 200,180' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.06'/%3E%3C/svg%3E");background-repeat:repeat;color:var(--asphalt);-webkit-font-smoothing:antialiased;}
   .mono{font-family:'IBM Plex Mono',monospace;}
   a{color:inherit;text-decoration:none;}
   img{max-width:100%;display:block;}
@@ -31,8 +31,27 @@
   nav a:hover::after{width:100%;}
   .nav-cta{background:var(--asphalt);color:var(--white);padding:10px 18px;border-radius:2px;font-size:14px;font-weight:600;display:inline-block;}
 
-  .hero{background:var(--asphalt);color:var(--white);position:relative;overflow:hidden;}
-  .hero-inner{max-width:1240px;margin:0 auto;padding:88px 32px 0;display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center;}
+  .menu-toggle{display:none;background:none;border:0;cursor:pointer;padding:8px;margin:-8px;flex-direction:column;justify-content:center;gap:5px;width:38px;height:38px;flex-shrink:0;}
+  .menu-toggle span{display:block;width:100%;height:2px;background:var(--asphalt);transition:transform .2s ease, opacity .2s ease;}
+  .menu-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+  .menu-toggle[aria-expanded="true"] span:nth-child(2){opacity:0;}
+  .menu-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+  .mobile-menu{display:none;position:absolute;top:100%;left:0;right:0;background:var(--concrete);border-bottom:1px solid rgba(27,27,26,.12);box-shadow:0 16px 28px rgba(27,27,26,.1);max-height:calc(100vh - 100%);overflow-y:auto;}
+  .mobile-menu.open{display:block;}
+  .mobile-menu ul{list-style:none;padding:0 32px;}
+  .mobile-menu li{border-top:1px solid rgba(27,27,26,.1);}
+  .mobile-menu li:first-child{border-top:0;}
+  .mobile-menu a{display:block;padding:16px 0;font-size:16px;font-weight:500;}
+  .mobile-menu a.active{color:var(--green-dark);}
+  .mobile-menu .nav-cta{display:inline-block;margin:8px 32px 24px;}
+
+  .hero{
+    background-image:linear-gradient(100deg, rgba(27,27,26,.95) 0%, rgba(27,27,26,.82) 38%, rgba(27,27,26,.42) 72%, rgba(27,27,26,.22) 100%), url("hero-truck.jpg");
+    background-size:cover;background-position:center 60%;background-repeat:no-repeat;
+    color:var(--white);position:relative;overflow:hidden;
+  }
+  .hero-inner{max-width:1240px;margin:0 auto;padding:88px 32px 0;display:grid;grid-template-columns:1fr;gap:40px;align-items:center;}
   .hero h1{font-size:clamp(2.4rem, 4.6vw, 4.1rem);line-height:1.03;font-weight:700;letter-spacing:-0.02em;max-width:11.5ch;}
   .hero h1 span{color:var(--green);}
   .hero p.lede{margin-top:22px;font-size:17px;line-height:1.6;max-width:44ch;color:#cfcdc8;}
@@ -42,15 +61,25 @@
   .btn-primary:hover{background:var(--yellow);}
   .btn-ghost{border-color:rgba(250,250,248,.35);color:var(--white);}
   .btn-ghost:hover{border-color:var(--white);}
-  .hero-art{position:relative;}
-  .hero-art svg{width:100%;height:auto;}
-  .stat-strip{max-width:1240px;margin:0 auto;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr);margin-top:64px;}
+  .stat-strip{max-width:1240px;margin:64px auto 0;padding:0 32px;display:grid;grid-template-columns:repeat(4,1fr);position:relative;z-index:1;}
   .stat{padding:26px 0;border-top:1px solid rgba(250,250,248,.18);}
   .stat .num{font-size:28px;font-weight:700;color:var(--green);}
   .stat .label{font-size:13px;color:#a9a6a0;margin-top:4px;}
 
   section{padding:88px 32px;}
   .section-inner{max-width:1240px;margin:0 auto;}
+
+  /* trust strip, below the hero */
+  .trust-bar{padding:26px 32px;}
+  .trust-bar-grid{
+    max-width:1240px;margin:0 auto;
+    display:flex;flex-wrap:wrap;gap:0;
+  }
+  .trust-bar-grid span{
+    font-size:14.5px;color:#454340;padding:6px 28px 6px 0;margin-right:28px;
+    border-right:1px solid rgba(27,27,26,.16);
+  }
+  .trust-bar-grid span:last-child{border-right:none;margin-right:0;padding-right:0;}
   .section-head{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;margin-bottom:48px;align-items:end;}
   .section-head h2{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:700;letter-spacing:-0.015em;line-height:1.08;}
   .section-head .desc{font-size:16px;line-height:1.65;color:#454340;max-width:46ch;}
@@ -77,8 +106,35 @@
   }
   .w-item:hover figcaption{opacity:1;transform:translateY(0);}
 
+  /* full-bleed feature photo, cut on the diagonal like a road cross-section */
+  .feature-photo{
+    position:relative;overflow:hidden;min-height:460px;
+    clip-path:polygon(0 4.5%, 100% 0, 100% 95.5%, 0 100%);
+    margin:-46px 0;color:var(--white);
+  }
+  .feature-photo-media{position:absolute;inset:0;}
+  .feature-photo-media img{width:100%;height:100%;object-fit:cover;}
+  .feature-photo-media::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(0deg, rgba(27,27,26,.85) 0%, rgba(27,27,26,.15) 45%, rgba(27,27,26,.55) 100%);
+  }
+  .feature-photo-inner{position:relative;z-index:1;max-width:1240px;margin:0 auto;min-height:460px;display:flex;align-items:flex-end;padding:0 32px 74px;}
+  .feature-photo-inner p{font-size:clamp(1.25rem,2.3vw,1.8rem);font-weight:600;line-height:1.35;max-width:22ch;letter-spacing:-0.01em;}
+
+  /* project cards */
+  .project-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(27,27,26,.16);}
+  .project-card{background:var(--white);display:flex;flex-direction:column;}
+  .project-card-media{aspect-ratio:4/3;overflow:hidden;background:var(--asphalt-2);}
+  .project-card-media img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
+  .project-card:hover .project-card-media img{transform:scale(1.06);}
+  .project-card-body{padding:22px 24px 26px;}
+  .project-card-body h3{font-size:16.5px;font-weight:600;margin-bottom:8px;}
+  .project-card-body p{font-size:13.5px;line-height:1.6;color:#454340;}
+
   /* quality/eu band */
-  .qeu{background:var(--asphalt);color:var(--white);}
+  .qeu{background:var(--asphalt);color:var(--white);position:relative;overflow:hidden;}
+  .qeu::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0,30 C50,10 150,10 200,30' fill='none' stroke='%23fafaf8' stroke-width='1' stroke-opacity='.05'/%3E%3Cpath d='M0,80 C50,100 150,60 200,80' fill='none' stroke='%23fafaf8' stroke-width='1' stroke-opacity='.05'/%3E%3Cpath d='M0,130 C50,110 150,150 200,130' fill='none' stroke='%23fafaf8' stroke-width='1' stroke-opacity='.05'/%3E%3Cpath d='M0,180 C50,160 150,200 200,180' fill='none' stroke='%23fafaf8' stroke-width='1' stroke-opacity='.05'/%3E%3C/svg%3E");background-repeat:repeat;pointer-events:none;z-index:0;}
+  .qeu .section-inner{position:relative;z-index:1;}
   .qeu .section-head .desc{color:#cfcdc8;}
   .qeu-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:1px;background:rgba(250,250,248,.18);}
   .qeu-grid > div{background:var(--asphalt);padding:32px;}
@@ -92,15 +148,35 @@
   .qeu-links a{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--green);}
   .qeu-links a:hover{color:var(--white);}
 
+  /* contact CTA */
+  .cta-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:48px;align-items:end;}
+  .cta h2{font-size:clamp(2.1rem,4vw,3.2rem);font-weight:700;letter-spacing:-0.02em;line-height:1.05;}
+  .cta h2 span{color:var(--green-dark);}
+  .cta p.desc{margin-top:18px;font-size:16.5px;line-height:1.65;color:#454340;max-width:46ch;}
+  .cta-actions{margin-top:30px;}
+  .cta-contact{display:flex;flex-direction:column;gap:22px;border-left:1px solid rgba(27,27,26,.16);padding-left:36px;}
+  .cta-contact-item .label{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--line-grey);display:block;margin-bottom:6px;}
+  .cta-contact-item a{font-size:22px;font-weight:600;letter-spacing:-0.01em;}
+  .cta-contact-item a:hover{color:var(--green-dark);}
+
   /* location teaser */
   .loc-teaser{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid rgba(27,27,26,.16);}
-  .loc-teaser-info{padding:36px;background:var(--white);}
+  .loc-teaser-info{padding:36px;background:var(--white);color:var(--asphalt);}
   .loc-teaser-info .tag{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--green-dark);display:block;margin-bottom:10px;}
   .loc-teaser-info p{font-size:15px;line-height:1.7;margin-bottom:22px;}
   .loc-teaser-map{position:relative;min-height:260px;background:var(--concrete-2);}
   .loc-teaser-map iframe{width:100%;height:100%;position:absolute;inset:0;border:0;filter:grayscale(.15) contrast(1.05);}
 
-  footer{background:var(--green);color:var(--asphalt);padding:80px 32px 40px;}
+  .loc-section{
+    position:relative;overflow:hidden;color:var(--white);
+    background-image:linear-gradient(180deg, rgba(27,27,26,.90), rgba(27,27,26,.80)), url("road-bg.jpg");
+    background-size:cover;background-position:center;
+  }
+  .loc-section .section-head h2{color:var(--white);}
+
+  footer{background:var(--green);color:var(--asphalt);padding:80px 32px 40px;position:relative;overflow:hidden;}
+  footer::before{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cpath d='M0,30 C50,10 150,10 200,30' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.09'/%3E%3Cpath d='M0,80 C50,100 150,60 200,80' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.09'/%3E%3Cpath d='M0,130 C50,110 150,150 200,130' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.09'/%3E%3Cpath d='M0,180 C50,160 150,200 200,180' fill='none' stroke='%231b1b1a' stroke-width='1' stroke-opacity='.09'/%3E%3C/svg%3E");background-repeat:repeat;pointer-events:none;z-index:0;}
+  footer .section-inner{position:relative;z-index:1;}
   .footer-top{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:40px;padding-bottom:56px;}
   .footer-top h2{font-size:clamp(1.9rem,3.4vw,3rem);font-weight:700;letter-spacing:-0.02em;max-width:14ch;line-height:1.06;}
   .footer-col h5{font-size:13px;font-family:'IBM Plex Mono',monospace;margin-bottom:14px;opacity:.75;}
@@ -108,14 +184,27 @@
   .footer-bottom{border-top:1px solid rgba(27,27,26,.25);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
   .footer-bottom span{font-size:13px;font-family:'IBM Plex Mono',monospace;opacity:.8;}
 
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    .w-item img, .w-item figcaption, .project-card-media img{transition:none;}
+  }
+
   @media (max-width:860px){
-    nav ul, .nav-cta{display:none;}
+    nav{display:none;}
+    .nav-wrap > .nav-cta{display:none;}
+    .menu-toggle{display:flex;}
+    .trust-bar-grid{flex-direction:column;gap:10px;}
+    .trust-bar-grid span{border-right:none;margin-right:0;padding:0;}
     .hero-inner{grid-template-columns:1fr;padding-top:48px;}
-    .hero-art{order:-1;max-width:280px;}
     .stat-strip{grid-template-columns:repeat(2,1fr);}
     .section-head{grid-template-columns:1fr;align-items:start;}
     .svc-teaser{grid-template-columns:repeat(2,1fr);}
     .work-strip{grid-template-columns:repeat(2,1fr);}
+    .feature-photo{clip-path:polygon(0 2.5%, 100% 0, 100% 97.5%, 0 100%);margin:-24px 0;min-height:340px;}
+    .feature-photo-media, .feature-photo-inner{min-height:340px;}
+    .project-cards{grid-template-columns:1fr;}
+    .cta-grid{grid-template-columns:1fr;gap:32px;}
+    .cta-contact{border-left:none;padding-left:0;border-top:1px solid rgba(27,27,26,.16);padding-top:24px;}
     .qeu-grid{grid-template-columns:1fr;}
     .loc-teaser{grid-template-columns:1fr;}
     .footer-top{grid-template-columns:1fr;gap:30px;}
@@ -138,7 +227,19 @@
         <li><a href="kontakty.html">Kontakty</a></li>
       </ul>
     </nav>
-    <a class="nav-cta" href="kontakty.html">Poptávka</a>
+    <a class="nav-cta" href="kontakty.html#poptavka">Poptávka</a>
+    <button class="menu-toggle" aria-label="Otevřít menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu">
+    <ul>
+      <li><a href="sluzby.html">Naše služby</a></li>
+      <li><a href="system-managementu-jakosti.html">Systém jakosti</a></li>
+      <li><a href="projekty-eu.html">Projekty EU</a></li>
+      <li><a href="kontakty.html">Kontakty</a></li>
+    </ul>
+    <a class="nav-cta" href="kontakty.html#poptavka">Poptávka</a>
   </div>
 </header>
 
@@ -149,89 +250,27 @@
       <p class="lede">Dopravní stavby, těžba a zpracování kamene, výroba živičných směsí a doprava — od roku 1997 v Čáslavi a středních Čechách.</p>
       <div class="hero-actions">
         <a class="btn btn-primary" href="sluzby.html">Naše služby</a>
-        <a class="btn btn-ghost" href="kontakty.html">Kontaktujte nás</a>
+        <a class="btn btn-ghost" href="kontakty.html#poptavka">Kontaktujte nás</a>
       </div>
-    </div>
-    <div class="hero-art">
-      <svg viewBox="0 0 480 380" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="earthGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#3a3937"/>
-            <stop offset="100%" stop-color="#2c2b29"/>
-          </linearGradient>
-          <clipPath id="crossSectionClip">
-            <rect x="20" y="60" width="440" height="260" rx="3"/>
-          </clipPath>
-        </defs>
-
-        <rect x="20" y="60" width="440" height="260" rx="3" fill="#242422"/>
-
-        <g clip-path="url(#crossSectionClip)">
-          <rect x="20" y="230" width="440" height="90" fill="url(#earthGrad)"/>
-
-          <rect x="20" y="190" width="440" height="40" fill="#57544f"/>
-          <g fill="#211f1d" opacity=".35">
-            <circle cx="52" cy="203" r="4"/><circle cx="90" cy="214" r="3"/><circle cx="132" cy="200" r="3.5"/>
-            <circle cx="176" cy="216" r="4.5"/><circle cx="218" cy="205" r="3"/><circle cx="262" cy="212" r="4"/>
-            <circle cx="304" cy="199" r="3"/><circle cx="348" cy="217" r="4.5"/><circle cx="392" cy="203" r="3.5"/>
-            <circle cx="432" cy="213" r="3"/>
-          </g>
-          <g fill="#a9a6a0">
-            <circle cx="60" cy="209" r="3"/><circle cx="102" cy="200" r="4"/><circle cx="146" cy="215" r="3.5"/>
-            <circle cx="192" cy="203" r="3"/><circle cx="236" cy="216" r="4.5"/><circle cx="280" cy="201" r="3"/>
-            <circle cx="322" cy="211" r="4"/><circle cx="366" cy="200" r="3"/><circle cx="408" cy="215" r="4"/>
-            <circle cx="446" cy="205" r="3.5"/>
-          </g>
-          <rect x="20" y="190" width="440" height="1" fill="#ffffff" opacity=".07"/>
-
-          <rect x="20" y="160" width="440" height="30" fill="#2b2a28"/>
-          <rect x="20" y="160" width="440" height="1" fill="#ffffff" opacity=".08"/>
-
-          <rect x="20" y="140" width="440" height="20" fill="#161514"/>
-          <rect x="20" y="138" width="440" height="3" fill="#4ca832"/>
-
-          <g fill="#f2b705">
-            <rect x="40" y="62" width="24" height="7" rx="2"/>
-            <rect x="88" y="62" width="24" height="7" rx="2"/>
-            <rect x="136" y="62" width="24" height="7" rx="2"/>
-            <rect x="184" y="62" width="24" height="7" rx="2"/>
-            <rect x="232" y="62" width="24" height="7" rx="2"/>
-            <rect x="280" y="62" width="24" height="7" rx="2"/>
-            <rect x="328" y="62" width="24" height="7" rx="2"/>
-            <rect x="376" y="62" width="24" height="7" rx="2"/>
-            <rect x="424" y="62" width="24" height="7" rx="2"/>
-          </g>
-        </g>
-
-        <rect x="20" y="60" width="440" height="260" rx="3" fill="none" stroke="#fafaf8" stroke-opacity=".12"/>
-
-        <g font-family="IBM Plex Mono, monospace" font-size="11" fill="#cfcdc8">
-          <circle cx="34" cy="150" r="2.5" fill="#4ca832"/>
-          <line x1="40" y1="150" x2="378" y2="150" stroke="#fafaf8" stroke-opacity=".18" stroke-dasharray="1.5 3"/>
-          <text x="452" y="153" text-anchor="end" fill="#fafaf8">obrusná vrstva</text>
-
-          <circle cx="34" cy="175" r="2.5" fill="#8a8680"/>
-          <line x1="40" y1="175" x2="378" y2="175" stroke="#fafaf8" stroke-opacity=".18" stroke-dasharray="1.5 3"/>
-          <text x="452" y="178" text-anchor="end">podkladní vrstva</text>
-
-          <circle cx="34" cy="210" r="2.5" fill="#a9a6a0"/>
-          <line x1="40" y1="210" x2="378" y2="210" stroke="#fafaf8" stroke-opacity=".18" stroke-dasharray="1.5 3"/>
-          <text x="452" y="213" text-anchor="end">štěrkopísek</text>
-
-          <circle cx="34" cy="275" r="2.5" fill="#6b6862"/>
-          <line x1="40" y1="275" x2="378" y2="275" stroke="#fafaf8" stroke-opacity=".18" stroke-dasharray="1.5 3"/>
-          <text x="452" y="278" text-anchor="end">zemní pláň</text>
-        </g>
-      </svg>
     </div>
   </div>
   <div class="stat-strip">
-    <div class="stat"><div class="num">1997</div><div class="label">rok založení</div></div>
-    <div class="stat"><div class="num">283</div><div class="label">zaměstnanců</div></div>
+    <div class="stat"><div class="num" data-count="1997">0</div><div class="label">rok založení</div></div>
+    <div class="stat"><div class="num" data-count="283">0</div><div class="label">zaměstnanců</div></div>
     <div class="stat"><div class="num">ISO</div><div class="label">9001 · 14001 · 45001</div></div>
     <div class="stat"><div class="num">Kutná Hora</div><div class="label">a střední Čechy</div></div>
   </div>
   <div style="height:80px"></div>
+</div>
+<div class="roadline"></div>
+
+<div class="trust-bar">
+  <div class="trust-bar-grid">
+    <span>Vlastní výroba kameniva a živičných směsí</span>
+    <span>Kompletní řešení — od zemních prací po finální povrch</span>
+    <span>Desítky let zkušeností s dopravními stavbami</span>
+    <span>Vlastní vozový park a specializovaná technika</span>
+  </div>
 </div>
 <div class="roadline"></div>
 
@@ -251,13 +290,60 @@
   </div>
 </section>
 
+<section class="feature-photo">
+  <div class="feature-photo-media">
+    <img src="project-parking.jpg" alt="Letecký pohled na pokládku asfaltu na rozsáhlé parkovací ploše">
+  </div>
+  <div class="feature-photo-inner">
+    <p>Od hutněné pláně po hotový povrch — technika a lidé nasazení na stavbách po celý rok.</p>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <div class="section-head">
+      <h2>Vybrané realizace</h2>
+      <p class="desc">Napříč obory — od zemních prací po rozsáhlé zpevněné a letištní plochy.</p>
+    </div>
+    <div class="project-cards">
+      <article class="project-card">
+        <div class="project-card-media">
+          <img src="project-earthworks.jpg" alt="Připravené zemní těleso s odvodňovacím žlabem">
+        </div>
+        <div class="project-card-body">
+          <h3>Zemní práce a odvodnění</h3>
+          <p>Příprava terénu a odvodnění stavby před pokládkou konstrukčních vrstev.</p>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="project-card-media">
+          <img src="project-parking.jpg" alt="Pokládka asfaltu na parkovací ploše obchodního centra">
+        </div>
+        <div class="project-card-body">
+          <h3>Parkovací plochy obchodního centra</h3>
+          <p>Pokládka asfaltového souvrství a povrchové úpravy rozsáhlé zpevněné plochy.</p>
+        </div>
+      </article>
+      <article class="project-card">
+        <div class="project-card-media">
+          <img src="project-runway.jpg" alt="Letecký pohled na vzletovou a pojezdovou dráhu">
+        </div>
+        <div class="project-card-body">
+          <h3>Vzletová a pojezdová dráha</h3>
+          <p>Rozsáhlá betonová a asfaltová plocha letištní infrastruktury.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
 <div class="roadline dark"></div>
 
 <section style="padding-bottom:0;">
   <div class="section-inner" style="margin-bottom:48px;">
     <div class="section-head" style="margin-bottom:0;">
-      <h2>Naše realizace</h2>
-      <p class="desc">Výběr z dokončených i probíhajících staveb.</p>
+      <h2>Z galerie staveb</h2>
+      <p class="desc">Další záběry z dokončených i probíhajících realizací.</p>
     </div>
   </div>
   <div class="work-strip">
@@ -307,9 +393,33 @@
   </div>
 </section>
 
+<section class="cta">
+  <div class="section-inner">
+    <div class="cta-grid">
+      <div>
+        <h2>Máte <span>projekt?</span></h2>
+        <p class="desc">Potřebujete realizovat komunikaci, zemní práce nebo dodávku kameniva? Pošlete nám poptávku a ozveme se s návrhem řešení.</p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="kontakty.html#poptavka">Pošlete nám poptávku →</a>
+        </div>
+      </div>
+      <div class="cta-contact">
+        <div class="cta-contact-item">
+          <span class="label">Telefon</span>
+          <a href="tel:+420327312351">+420 327 312 351</a>
+        </div>
+        <div class="cta-contact-item">
+          <span class="label">E-mail</span>
+          <a href="mailto:silnice@silnicecaslav.cz">silnice@silnicecaslav.cz</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <div class="roadline"></div>
 
-<section>
+<section class="loc-section">
   <div class="section-inner">
     <div class="section-head">
       <h2>Kde nás najdete</h2>
@@ -346,10 +456,68 @@
     </div>
     <div class="footer-bottom">
       <span>Silnice Čáslav — Holding, a.s. · od 1997</span>
-      <span>Redesign koncept — obsah orientační</span>
     </div>
   </div>
 </footer>
 
+<script>
+(function(){
+  var counters = document.querySelectorAll('.num[data-count]');
+  if(!counters.length) return;
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animate(el){
+    var target = parseInt(el.getAttribute('data-count'), 10);
+    if(reduceMotion || isNaN(target)){ el.textContent = target; return; }
+    var start = null, duration = 1100;
+    function step(ts){
+      if(!start) start = ts;
+      var progress = Math.min((ts - start) / duration, 1);
+      var eased = 1 - Math.pow(1 - progress, 3);
+      el.textContent = Math.round(eased * target);
+      if(progress < 1) requestAnimationFrame(step);
+      else el.textContent = target;
+    }
+    requestAnimationFrame(step);
+  }
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries, obs){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          animate(entry.target);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {threshold:0.4});
+    counters.forEach(function(el){ io.observe(el); });
+  } else {
+    counters.forEach(animate);
+  }
+})();
+</script>
+<script>
+(function(){
+  var btn = document.querySelector(".menu-toggle");
+  var menu = document.getElementById("mobile-menu");
+  if(!btn || !menu) return;
+  btn.addEventListener("click", function(){
+    var open = menu.classList.toggle("open");
+    btn.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+  menu.querySelectorAll("a").forEach(function(a){
+    a.addEventListener("click", function(){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    });
+  });
+  window.addEventListener("resize", function(){
+    if(window.innerWidth > 860){
+      menu.classList.remove("open");
+      btn.setAttribute("aria-expanded", "false");
+    }
+  });
+})();
+</script>
 </body>
 </html>
